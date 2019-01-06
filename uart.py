@@ -3,14 +3,16 @@ import crc
 import time
 import struct
 from reg_defs import *
-import defaults
 from bitstring import BitArray
 import yaml
+import os
+
+SERIAL_PORT = os.getenv('SERIAL_PORT', "COM4")
 
 baudrate = 115200
 anticollision_time = 3*80*1000/baudrate / 1000;
 
-ser = serial.Serial('COM4', baudrate, timeout=0, rtscts=True, dsrdtr=True)
+ser = serial.Serial(SERIAL_PORT, baudrate, timeout=0, rtscts=True, dsrdtr=True)
 
 def get_bits(bytearr,idx,length=1):
     bits = BitArray(bytearr)
