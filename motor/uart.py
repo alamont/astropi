@@ -1,4 +1,4 @@
-import serial
+# import serial
 import crc
 import time
 import struct
@@ -7,12 +7,15 @@ from bitstring import BitArray
 import yaml
 import os
 
-SERIAL_PORT = os.getenv('SERIAL_PORT', "COM4")
+# SERIAL_PORT = os.getenv('SERIAL_PORT', "COM4")
+
+# baudrate = 115200
+# anticollision_time = 3*80*1000/baudrate / 1000;
+
+# ser = serial.Serial(SERIAL_PORT, baudrate, timeout=0, rtscts=True, dsrdtr=True)
 
 baudrate = 115200
 anticollision_time = 3*80*1000/baudrate / 1000;
-
-ser = serial.Serial(SERIAL_PORT, baudrate, timeout=0, rtscts=True, dsrdtr=True)
 
 def get_bits(bytearr,idx,length=1):
     bits = BitArray(bytearr)
@@ -32,7 +35,7 @@ def create_write_datagram(register_addr, data):
     # print("Send: " + str(datagram))
     return datagram
 
-def read_data():
+def read_data(ser):
     data = ser.readline()
     while len(data) >= 4:
         if data[0] == 0x05:
@@ -63,22 +66,23 @@ def decode_datagram(datagram):
 
     return data
 
-def read_regsiter(addr):
+def read_regsiter(ser, addr):
     ser.write(create_read_datagram(addr))
     time.sleep(anticollision_time)
-    return read_data()
+    return read_data(ser)
 
-def read_all():
+def read_all(ser):
     register_data = {}
     for register in registers:
         if register["rw_info"] != "W":
-            register_data = {**register_data, **read_regsiter(register["addr"])}
+            register_data = {**register_data, **read_regsiter(ser, register["addr"])}
 
-    print(yaml.dump(register_data, default_flow_style=False))
+    # print(yaml.dump(register_data, default_flow_style=False))
+    return register_data
 
 
-time.sleep(0.1)
+# time.sleep(0.1)
 # ser.write(create_read_datagram(REG_GCONF))
 # time.sleep(anticollision_time)
 # read_data()
-read_all()
+# read_all()
