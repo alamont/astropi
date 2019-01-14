@@ -2,16 +2,20 @@ import pigpio
 import uart
 import serial
 import threading
+import functools
 
 class Motor():
-  def __init__(self, step_pin, dir_pin, en_pin, speed=1000, dir=1, enable=0, serial_port=None):
+  def __init__(self, step_pin, dir_pin, en_pin, motor_id, waves, speed=1000, dir=1, enable=0, serial_port=None):
     self.step_pin = step_pin
     self.dir_pin = dir_pin
     self.en_pin = en_pin
     self.ser = None
+    self.wave_id = None
+    self.waves = waves
+    self.motor_id = motor_id
     if serial_port:
       baudrate = 115200
-      self.ser = serial.Serial(serial_port, baudrate, timeout=0, rtscts=True, dsrdtr=True)
+      self.ser = serial.Serial(serial_port, baudrate, timeout=0)
     
     self.pi = pigpio.pi()
     if not self.pi.connected:
@@ -33,19 +37,27 @@ class Motor():
     self.set_speed(self.speed)
 
   def set_speed(self, speed):
-    waveform = []
+    
+    self.waves.add_wave(self.step_pin, speed)
+    self.waves.send_waves()
 
-    waveform.append(pigpio.pulse(1<<self.step_pin, 0, speed//10))
-    waveform.append(pigpio.pulse(0, 1<<self.step_pin, speed-speed//10))
+    # self.waveforms[self.motor_id] = [
+    #   pigpio.pulse(1<<self.step_pin, 0, speed//10),
+    #   pigpio.pulse(0, 1<<self.step_pin, speed-speed//10)
+    # ]
 
-    # waveform.append(pigpio.pulse(1<<2, 0, 100))
-    # waveform.append(pigpio.pulse(0, 1<<2, 900))
+    # # waveform = self.waveforms.
+    # waveform = functools.reduce(lambda x, value:x + value, self.waveforms.values(), [])
 
-    self.pi.wave_clear()
+    # # waveform.append(pigpio.pulse(1<<2, 0, 100))
+    # # waveform.append(pigpio.pulse(0, 1<<2, 900))
+    # # if self.wave_id is not None:
+    #   # self.pi.wave_delete(self.wave_id)
+    # self.pi.wave_clear()
 
-    self.pi.wave_add_generic(waveform)
-    wave = self.pi.wave_create()
-    self.pi.wave_send_repeat(wave)
+    # self.pi.wave_add_generic(waveform)
+    # wave = self.pi.wave_create()
+    # self.pi.wave_send_repeat(wave)
 
   def set_dir(self, dir):
     self.pi.write(self.dir_pin, dir)
