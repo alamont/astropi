@@ -1,11 +1,11 @@
 from server import sio, app
 import json
 
-def expose_motor(motors):
+def expose_motors(motors):
     @sio.on('connect')
     def connect(sid, environ):
         print('connect ', sid)
-        print(motor.motor_id)
+        # print(motor.motor_id)
         for motor_id in motors:
             motor = motors[motor_id]
             sio.emit("motor", json.dumps({"motorId": motor.motor_id, 
@@ -19,7 +19,8 @@ def expose_motor(motors):
     def motor_socket(sid, data):
         # data = json.loads(json_data)
         print(data)
-        if data["motorId"] == motor.motor_id:
+        if data["motorId"] in motors:
+            motor = motors[data["motorId"]]
             dir = data.get("dir", None)
             enable = data.get("enable", None)
             speed = data.get("speed", None)

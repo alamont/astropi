@@ -19,7 +19,7 @@ EN_PIN = 4
 
 pigpio.pi().wave_clear()
 
-waves = Waves(1)
+waves = Waves(0.01)
 
 motor0 = Motor(step_pin=2, 
               dir_pin=3, 
@@ -35,7 +35,7 @@ motor1 = Motor(step_pin=17,
               serial_port=SERIAL_PORT1,
               waves=waves)
 
-expose_motors({0: motor:0, 1: motor1})
+expose_motors({0: motor0, 1: motor1})
 # expose_motor(motor1)
 # print(motor.get_all_registers())
   
