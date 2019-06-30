@@ -47,3 +47,28 @@ def expose_motors(motors):
     def enable(sid, speed):
         print("speed ", speed)
         motor.set_speed(speed)
+
+
+def expose_altitude(altitude):
+    @sio.on('connect')
+    def connect(sid, environ):
+        print('connect ', sid)
+        sio.emit("altitude", json.dumps({"dir": altitude.dir,
+                                         "speed": altitude.speed,
+                                         "enable": altitude.enable}))
+
+    @sio.on("altitude")
+    def altitude_socket(sid, data):
+        print(data)
+        dir = data.get("dir", None)
+        enable = data.get("enable", None)
+        speed = data.get("speed", None)
+        print(dir, enable, speed)
+        if dir is not None: altitude.set_dir(dir)
+        if enable is not None: altitude.set_enable(enable)
+        if speed is not None: altitude.set_speed(speed)
+                
+
+    @sio.on('disconnect')
+    def disconnect(sid):
+        print('disconnect ', sid)

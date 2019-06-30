@@ -5,7 +5,7 @@ import threading
 import functools
 
 class Motor():
-  def __init__(self, step_pin, dir_pin, en_pin, motor_id, waves, speed=1000, dir=1, enable=0, serial_port=None):
+  def __init__(self, step_pin, dir_pin, en_pin, motor_id, waves, speed=1000, dir=1, enable=1, serial_port=None):
     self.step_pin = step_pin
     self.dir_pin = dir_pin
     self.en_pin = en_pin
