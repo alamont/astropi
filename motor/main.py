@@ -1,8 +1,9 @@
 import sys, os
 import time
 from motor import Motor
+from altitude import Altitude
 from server import sio, app
-from sockets import expose_motors
+from sockets import expose_motors, expose_altitude  
 import serial
 import pigpio
 from wave import Waves
@@ -35,7 +36,11 @@ motor1 = Motor(step_pin=17,
               serial_port=SERIAL_PORT1,
               waves=waves)
 
-expose_motors({0: motor0, 1: motor1})
+altitude = Altitude(motor0, motor1)
+
+# expose_motors({0: motor0, 1: motor1})
+expose_altitude(altitude)
+
 # expose_motor(motor1)
 # print(motor.get_all_registers())
   
