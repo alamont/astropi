@@ -2,16 +2,6 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import MotorControlButtons from "./MotorControlButtons.js";
 
-const socket = io("http://raspberrypi:8000");
-
-socket.on("connect", () => {
-  console.log("Socket.io Connected!");
-});
-
-socket.on("disconnect", () => {
-  console.log("Socket.io Disconnected!");
-});
-
 class MotorControl extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +23,14 @@ class MotorControl extends Component {
 
   render() {
 
+    const motor0KeyMap = {
+      dirLeft: "f",
+      dirRight: "h",
+      enable: "y",
+      speedUp: "t",
+      speedDown: "g"
+    }
+
     const motor1KeyMap = {
       dirLeft: "a",
       dirRight: "d",
@@ -49,7 +47,8 @@ class MotorControl extends Component {
           increaseSpeed={this.increaseSpeed(0).bind(this)}
           decraseSpeed={this.decraseSpeed(0).bind(this)}
           toggleEnable={this.toggleEnable(0).bind(this)}
-          motorState={this.state.motors[0]}/>
+          motorState={this.state.motors[0]}
+          keymap={motor0KeyMap}/>
         <MotorControlButtons 
           motorId={1} 
           setDirection={this.setDirection(1).bind(this)}
@@ -78,20 +77,20 @@ class MotorControl extends Component {
 
   setDirection = motorId => dir => e => {
     this.setMotorState(motorId, "dir", dir);
-    socket.emit("motor", {motorId, dir});
+    this.props.socket.emit("motor", {motorId, dir});
   };
 
   toggleEnable = motorId => () => {
     console.log("toggleEnable");
     const enable = !this.state.motors[motorId].enable;
     this.setMotorState(motorId, "enable", enable);
-    socket.emit("motor", {motorId, enable})
+    this.props.socket.emit("motor", {motorId, enable})
 
   };
 
   setSpeed = motorId => speed => {
     this.setMotorState(motorId, "speed", speed);
-    socket.emit("motor", {motorId, speed})
+    this.props.socket.emit("motor", {motorId, speed})
   };
 
   increaseSpeed = motorId => () => {
