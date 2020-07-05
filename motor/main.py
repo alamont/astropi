@@ -2,6 +2,7 @@ import sys, os
 import time
 from motor import Motor
 from altitude import Altitude
+from altitude import Altitude
 from server import sio, app
 from sockets import expose_motors, expose_altitude  
 import serial
@@ -36,7 +37,15 @@ motor1 = Motor(step_pin=17,
               serial_port=SERIAL_PORT1,
               waves=waves)
 
+# motor2 = Motor(step_pin=17, 
+#               dir_pin=27, 
+#               en_pin=22,
+#               motor_id=1,
+#               serial_port=SERIAL_PORT1,
+#               waves=waves)
+
 altitude = Altitude(motor0, motor1)
+# azimuth = Azimuth(motor2)
 
 # expose_motors({0: motor0, 1: motor1})
 expose_altitude(altitude)

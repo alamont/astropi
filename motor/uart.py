@@ -66,6 +66,9 @@ def decode_datagram(datagram):
 
     return data
 
+def write_register(ser, addr, data):
+    ser.write(create_write_datagram(addr, data))
+
 def read_regsiter(ser, addr):
     ser.write(create_read_datagram(addr))
     time.sleep(anticollision_time)
