@@ -78,9 +78,11 @@ def read_all(ser):
     register_data = {}
     for register in registers:
         if register["rw_info"] != "W":
-            register_data = {**register_data, **read_regsiter(ser, register["addr"])}
+            data = read_regsiter(ser, register["addr"])
+            if data is not None:
+                register_data = {**register_data, **data}
 
-    # print(yaml.dump(register_data, default_flow_style=False))
+    print(yaml.dump(register_data, default_flow_style=False))
     return register_data
 
 

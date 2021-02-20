@@ -13,7 +13,7 @@ class Motor():
     self.wave_id = None
     self.waves = waves
     self.motor_id = motor_id
-    if serial_port:
+    if serial_port is not None:
       baudrate = 115200
       self.ser = serial.Serial(serial_port, baudrate, timeout=0)
     

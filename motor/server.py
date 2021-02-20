@@ -2,7 +2,7 @@ import socketio
 import eventlet
 import threading
 
-sio = socketio.Server()
+sio = socketio.Server(cors_allowed_origins='*')
 app = socketio.WSGIApp(sio)
 
 def serve_app(_sio, _app):
