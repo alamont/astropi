@@ -13,7 +13,7 @@ class Focuser():
         time.sleep(0.1)
         pi.set_servo_pulsewidth(self.pin, 1500)        
     def step_left(self):
-        pi.set_servo_pulsewidth(self.pin, 1600)
+        pi.set_servo_pulsewidth(self.pin, 1400)
         time.sleep(0.1)
         pi.set_servo_pulsewidth(self.pin, 1500)
 
