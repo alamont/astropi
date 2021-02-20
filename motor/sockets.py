@@ -109,10 +109,12 @@ def expose_focus(focus):
     @sio.on("focus")
     def focus_socket(sid, data):
         print(data)
-        step = data.get("step", None)        
+        step = data.get("step", None)
+        speed = data.get("speed", None)  
         print(step)
         if step == "left" is not None: focus.step_left()
         if step == "right" is not None: focus.step_right()
+        if speed is not None: focus.set_speed(speed)
 
     @sio.on('disconnect')
     def disconnect(sid):

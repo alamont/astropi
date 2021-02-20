@@ -6,17 +6,22 @@ pi = pigpio.pi()
 class Focuser():
     def __init__(self, pin):
         self.pin = pin
+        self.speed = 100
         pi.set_servo_pulsewidth(self.pin, 0)
 
     def step_right(self):
-        pi.set_servo_pulsewidth(self.pin, 1600)
+        pi.set_servo_pulsewidth(self.pin, 1500 + self.speed)
         time.sleep(0.1)
         pi.set_servo_pulsewidth(self.pin, 1500)        
     def step_left(self):
-        pi.set_servo_pulsewidth(self.pin, 1400)
+        pi.set_servo_pulsewidth(self.pin, 1500 - self.speed)
         time.sleep(0.1)
         pi.set_servo_pulsewidth(self.pin, 1500)
+
+    def set_speed(self, speed):
+        self.speed = speed
 
     def close(self):
         print("close")
         pi.set_servo_pulsewidth(self.pin, 0)
+        

@@ -3,6 +3,9 @@ import React, { Component } from "react";
 class FocusControl extends Component {
   constructor(props) {
     super(props);
+    this.state = { focus: { 
+      speed: 100      
+    }};
   }
 
   render() {
@@ -20,7 +23,9 @@ class FocusControl extends Component {
   handleKeyDown = event => {
     const defaultKeymap = {
       dirLeft: "z",
-      dirRight: "x",      
+      dirRight: "x", 
+      speedUp: "v",
+      speedDown: "c" 
     }
     const {
       keymap = defaultKeymap
@@ -30,6 +35,10 @@ class FocusControl extends Component {
       this.setStepLeft();
     } else if (event.key === keymap.dirRight) {
       this.setStepRight();
+    } else if (event.key === keymap.speedUp) {
+      this.speedUp();
+    } else if (event.key === keymap.speedDown) {
+      this.speedDown();
     }
   };
 
@@ -41,6 +50,16 @@ class FocusControl extends Component {
   setStepRight = () => {
     this.props.socket.emit("focus", {step: "right"});
   };
+
+  speedUp = () => {
+    this.state.focus.speed = this.state.focus.speed + 100;
+    this.props.socket.emit("focus", {speed: this.state.focus.speed});
+  }
+
+  speedDown = () => {
+    this.state.focus.speed = this.state.focus.speed - 100;
+    this.props.socket.emit("focus", {speed: this.state.focus.speed});
+  }
 }
 
 export default FocusControl;
