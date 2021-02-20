@@ -74,7 +74,7 @@ def expose_altitude(altitude):
         print('disconnect ', sid)
 
 
-def expose_aazimuth(azimuth):
+def expose_azimuth(azimuth):
     @sio.on('connect')
     def connect(sid, environ):
         print('connect ', sid)
