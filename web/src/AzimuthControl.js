@@ -6,14 +6,22 @@ class AzimuthControl extends Component {
     this.state = { azimuth: { 
         speed: 1000,
         dir: 1,
-        en: 1
+        en: 0
       }};
   }
 
   render() {
     return (
       <div>
-        {JSON.stringify(this.state)}
+        <h2>Altitude</h2>
+        <h4>Controls</h4>
+          <pre>
+            {JSON.stringify(this.defaultKeymap, null, 2)}
+          </pre>
+        <h4>State</h4>
+          <pre>
+            {JSON.stringify(this.state, null, 2)}
+          </pre>
       </div>
     );
   }
@@ -22,16 +30,17 @@ class AzimuthControl extends Component {
     document.addEventListener("keydown", this.handleKeyDown.bind(this), false);
   };
 
+  defaultKeymap = {
+    dirLeft: "a",
+    dirRight: "d",
+    enable: "q",
+    speedUp: "w",
+    speedDown: "s"
+  }
+
   handleKeyDown = event => {
-    const defaultKeymap = {
-      dirLeft: "a",
-      dirRight: "d",
-      enable: "q",
-      speedUp: "w",
-      speedDown: "s"
-    }
     const {
-      keymap = defaultKeymap
+      keymap = this.defaultKeymap
     } = this.props;
 
     if (event.key === keymap.dirLeft) {

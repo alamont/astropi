@@ -11,7 +11,15 @@ class FocusControl extends Component {
   render() {
     return (
       <div>
-        {JSON.stringify(this.state)}
+        <h2>Focus</h2>
+        <h4>Controls</h4>
+          <pre>
+            {JSON.stringify(this.defaultKeymap, null, 2)}
+          </pre>
+        <h4>State</h4>
+          <pre>
+            {JSON.stringify(this.state, null, 2)}
+          </pre>
       </div>
     );
   }
@@ -20,15 +28,16 @@ class FocusControl extends Component {
     document.addEventListener("keydown", this.handleKeyDown.bind(this), false);
   };
 
+  defaultKeymap = {
+    dirLeft: "z",
+    dirRight: "x", 
+    speedUp: "v",
+    speedDown: "c" 
+  }
+
   handleKeyDown = event => {
-    const defaultKeymap = {
-      dirLeft: "z",
-      dirRight: "x", 
-      speedUp: "v",
-      speedDown: "c" 
-    }
     const {
-      keymap = defaultKeymap
+      keymap = this. defaultKeymap
     } = this.props;
 
     if (event.key === keymap.dirLeft) {

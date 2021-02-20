@@ -6,18 +6,22 @@ class AltitudeControl extends Component {
     this.state = { altitude: { 
         speed: 1000,
         dir: 1,
-        en: 1
+        en: 0
       }};
   }
 
   render() {
     return (
       <div>
-        <h3>Altitude</h3>
+        <h2>Altitude</h2>
         <h4>Controls</h4>
-          {JSON.stringify(this.defaultKeymap)}
+          <pre>
+            {JSON.stringify(this.defaultKeymap, null, 2)}
+          </pre>
         <h4>State</h4>
-        {JSON.stringify(this.state)}
+          <pre>
+            {JSON.stringify(this.state, null, 2)}
+          </pre>
       </div>
     );
   }
