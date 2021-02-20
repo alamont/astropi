@@ -3,11 +3,11 @@ import time
 from motor import Motor
 from altaz import Altitude, Azimuth
 from server import sio, app
-from sockets import expose_motors, expose_altitude, expose_azimuth  
+from sockets import expose_motors, expose_altitude, expose_azimuth, expose_focus
 import serial
 import pigpio
 from wave import Waves
-import focuser
+from focuser import Focuser
 
 
 SERIAL_PORT0 = os.getenv('SERIAL_PORT0', "/dev/ttyUSB0")
@@ -55,10 +55,12 @@ print(motor2.get_all_registers())
 
 altitude = Altitude(motor0, motor1)
 azimuth = Azimuth(motor2)
+focus = Focuser(14)
 
 # expose_motors({0: motor0, 1: motor1})
 expose_altitude(altitude)
 expose_azimuth(azimuth)
+expose_focus(focus)
 
 # expose_motor(motor1)
 # print(motor.get_all_registers())

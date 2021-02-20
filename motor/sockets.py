@@ -97,3 +97,23 @@ def expose_azimuth(azimuth):
     @sio.on('disconnect')
     def disconnect(sid):
         print('disconnect ', sid)
+
+def expose_focus(focus):
+    @sio.on('connect')
+    def connect(sid, environ):
+        print('connect ', sid)
+        # sio.emit("focus", json.dumps({"pwm": azimuth.dir,
+        #                                  "speed": azimuth.speed,
+        #                                  "enable": azimuth.enable}))
+
+    @sio.on("focus")
+    def focus_socket(sid, data):
+        print(data)
+        step = data.get("step", None)        
+        print(step)
+        if step == "left" is not None: focus.step_left()
+        if step == "right" is not None: focus.step_right()
+
+    @sio.on('disconnect')
+    def disconnect(sid):
+        print('disconnect ', sid)
