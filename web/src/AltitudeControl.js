@@ -13,6 +13,10 @@ class AltitudeControl extends Component {
   render() {
     return (
       <div>
+        <h3>Altitude</h3>
+        <h4>Controls</h4>
+          {JSON.stringify(this.defaultKeymap)}
+        <h4>State</h4>
         {JSON.stringify(this.state)}
       </div>
     );
@@ -22,16 +26,24 @@ class AltitudeControl extends Component {
     document.addEventListener("keydown", this.handleKeyDown.bind(this), false);
   };
 
+  defaultKeymap = {
+    dirLeft: "ArrowLeft",
+    dirRight: "ArrowRight",
+    enable: " ",
+    speedUp: "ArrowUp",
+    speedDown: "ArrowDown"
+  }
+
   handleKeyDown = event => {
-    const defaultKeymap = {
-      dirLeft: "ArrowLeft",
-      dirRight: "ArrowRight",
-      enable: " ",
-      speedUp: "ArrowUp",
-      speedDown: "ArrowDown"
-    }
+    // const defaultKeymap = {
+    //   dirLeft: "ArrowLeft",
+    //   dirRight: "ArrowRight",
+    //   enable: " ",
+    //   speedUp: "ArrowUp",
+    //   speedDown: "ArrowDown"
+    // }
     const {
-      keymap = defaultKeymap
+      keymap = this.defaultKeymap
     } = this.props;
 
     if (event.key === keymap.dirLeft) {

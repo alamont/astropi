@@ -11,7 +11,7 @@ class FocusControl extends Component {
   render() {
     return (
       <div>
-        Focus
+        {JSON.stringify(this.state)}
       </div>
     );
   }

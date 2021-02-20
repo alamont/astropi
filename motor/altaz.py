@@ -30,8 +30,8 @@ class Altitude():
     self.motor_r.set_dir(inv(dir))
 
   def set_enable(self, en):
-    self.motor_l.set_enable(en)
-    self.motor_r.set_enable(en)
+    self.motor_l.set_enable(1-en)
+    self.motor_r.set_enable(1-en)
 
   def close(self, stop=False):
     self.motor_l.close(stop)
@@ -56,7 +56,7 @@ class Azimuth():
     self.motor.set_dir(dir)
 
   def set_enable(self, en):
-    self.motor.set_enable(en)
+    self.motor.set_enable(1-en)
 
   def close(self, stop=False):
     self.motor.close(stop)
