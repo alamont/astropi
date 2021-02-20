@@ -32,7 +32,8 @@ python3 main.py
 ```
 ssh pi@raspberrypi.local
 cd astropi/web
-npm start
+serve -s build
 ```
+Point your browser to `http://http://raspberrypi.local:5000/`
 
 default password is `raspberry`
