@@ -7,6 +7,7 @@ from sockets import expose_motors, expose_altitude, expose_azimuth
 import serial
 import pigpio
 from wave import Waves
+import focuser
 
 
 SERIAL_PORT0 = os.getenv('SERIAL_PORT0', "/dev/ttyUSB0")
