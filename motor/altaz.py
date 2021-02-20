@@ -37,7 +37,7 @@ class Altitude():
     self.motor_l.close(stop)
     self.motor_l.close(stop)
 
-class Altitude():
+class Azimuth():
   def __init__(self, motor, speed=1000, dir=1, enable=0):
     self.motor = motor
     
