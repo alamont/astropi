@@ -4,6 +4,7 @@ import './App.css';
 import MotorControl from './MotorControl.js'
 import AltitudeControl from './AltitudeControl.js'
 import AzimuthControl from './AzimuthControl.js'
+import FocusControl from './FocusControl.js'
 
 
 import io from "socket.io-client";
@@ -26,6 +27,7 @@ class App extends Component {
         {/* <MotorControl socket={socket}/> */}
         <AltitudeControl socket={socket}/>
         <AzimuthControl socket={socket}/>
+        <FocusControl socket={socket}/>
       </div>
     );
   }
