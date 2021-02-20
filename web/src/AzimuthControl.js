@@ -13,7 +13,7 @@ class AzimuthControl extends Component {
   render() {
     return (
       <div>
-        <h2>Altitude</h2>
+        <h2>Azimuth</h2>
         <h4>Controls</h4>
           <pre>
             {JSON.stringify(this.defaultKeymap, null, 2)}
