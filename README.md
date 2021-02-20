@@ -19,3 +19,20 @@ Before running the motor control server we need to start the pigpio daemon. Make
 ```
 sudo pigpiod -m
 ```
+
+
+## Instructions
+```
+ssh pi@raspberrypi.local
+cd astropi/motor
+sudo pigpiod -m
+python3 main.py
+```
+
+```
+ssh pi@raspberrypi.local
+cd astropi/web
+npm start
+```
+
+default password is `raspberry`
