@@ -1,10 +1,9 @@
 import sys, os
 import time
 from motor import Motor
-from altitude import Altitude
-from altitude import Altitude
+from altaz import Altitude, Azimuth
 from server import sio, app
-from sockets import expose_motors, expose_altitude  
+from sockets import expose_motors, expose_altitude, expose_azimuth  
 import serial
 import pigpio
 from wave import Waves
@@ -54,11 +53,11 @@ print(motor1.get_all_registers())
 print(motor2.get_all_registers())
 
 altitude = Altitude(motor0, motor1)
-#azimuth = Azimuth(motor2)
+azimuth = Azimuth(motor2)
 
 # expose_motors({0: motor0, 1: motor1})
 expose_altitude(altitude)
-#expose_azimuth(azimuth)
+expose_azimuth(azimuth)
 
 # expose_motor(motor1)
 # print(motor.get_all_registers())

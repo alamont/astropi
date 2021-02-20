@@ -72,3 +72,28 @@ def expose_altitude(altitude):
     @sio.on('disconnect')
     def disconnect(sid):
         print('disconnect ', sid)
+
+
+def expose_aazimuth(azimuth):
+    @sio.on('connect')
+    def connect(sid, environ):
+        print('connect ', sid)
+        sio.emit("azimuth", json.dumps({"dir": azimuth.dir,
+                                         "speed": azimuth.speed,
+                                         "enable": azimuth.enable}))
+
+    @sio.on("azimuth")
+    def azimuth_socket(sid, data):
+        print(data)
+        dir = data.get("dir", None)
+        enable = data.get("enable", None)
+        speed = data.get("speed", None)
+        print(dir, enable, speed)
+        if dir is not None: azimuth.set_dir(dir)
+        if enable is not None: azimuth.set_enable(enable)
+        if speed is not None: azimuth.set_speed(speed)
+                
+
+    @sio.on('disconnect')
+    def disconnect(sid):
+        print('disconnect ', sid)

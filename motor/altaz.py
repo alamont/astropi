@@ -36,3 +36,27 @@ class Altitude():
   def close(self, stop=False):
     self.motor_l.close(stop)
     self.motor_l.close(stop)
+
+class Altitude():
+  def __init__(self, motor, speed=1000, dir=1, enable=0):
+    self.motor = motor
+    
+    self.speed = speed
+    self.dir = dir
+    self.enable = enable
+
+    self.set_speed(self.speed)
+    self.set_dir(self.dir)
+    self.set_enable(self.enable)
+
+  def set_speed(self, speed):
+    self.motor.set_speed(speed)
+
+  def set_dir(self, dir):
+    self.motor.set_dir(dir)
+
+  def set_enable(self, en):
+    self.motor.set_enable(en)
+
+  def close(self, stop=False):
+    self.motor.close(stop)
