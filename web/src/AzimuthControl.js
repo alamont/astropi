@@ -88,7 +88,7 @@ class AzimuthControl extends Component {
   toggleDirection = () => {
     const dir = 1 - this.state.azimuth.dir;
     this.setAzimuthState("dir", dir)
-    this.props.socket.emit("altitude", {dir})
+    this.props.socket.emit("azimuth", {dir})
   }
 
   toggleEnable = () => {

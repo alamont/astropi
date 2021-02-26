@@ -37,9 +37,9 @@ class FocusControl extends Component {
       } else if (buttonName === "button_5") {
         this.setStepRight();
       } else if (buttonName === "button_9") {
-        this.increaseSpeed();
+        this.speedUp();
       } else if (buttonName === "button_8") {
-        this.decraseSpeed();
+        this.speedDown();
       }
     });
   };
