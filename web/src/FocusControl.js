@@ -1,4 +1,7 @@
+/* eslint no-undef: 0 */
+
 import React, { Component } from "react";
+import 'joypad.js'; 
 
 class FocusControl extends Component {
   constructor(props) {
@@ -26,6 +29,19 @@ class FocusControl extends Component {
 
   componentDidMount = () => {
     document.addEventListener("keydown", this.handleKeyDown.bind(this), false);
+    joypad.on('button_press', e => {
+      const { buttonName } = e.detail; 
+      console.log(`${buttonName} was pressed!`);
+      if (buttonName === "button_4") {
+        this.setStepLeft();
+      } else if (buttonName === "button_5") {
+        this.setStepRight();
+      } else if (buttonName === "button_9") {
+        this.increaseSpeed();
+      } else if (buttonName === "button_8") {
+        this.decraseSpeed();
+      }
+    });
   };
 
   defaultKeymap = {
@@ -61,12 +77,15 @@ class FocusControl extends Component {
   };
 
   speedUp = () => {
-    this.state.focus.speed = this.state.focus.speed + 100;
+    this.state.focus.speed = this.state.focus.speed + 50;
     this.props.socket.emit("focus", {speed: this.state.focus.speed});
   }
 
   speedDown = () => {
-    this.state.focus.speed = this.state.focus.speed - 100;
+    this.state.focus.speed = this.state.focus.speed - 50;
+    if (this.state.focus.speed < 1) {
+      this.state.focus.speed = 1;
+    }
     this.props.socket.emit("focus", {speed: this.state.focus.speed});
   }
 }

@@ -1,4 +1,7 @@
+/* eslint no-undef: 0 */
+
 import React, { Component } from "react";
+import 'joypad.js'; 
 
 class AltitudeControl extends Component {
   constructor(props) {
@@ -28,6 +31,19 @@ class AltitudeControl extends Component {
 
   componentDidMount = () => {
     document.addEventListener("keydown", this.handleKeyDown.bind(this), false);
+    joypad.on('button_press', e => {
+      const { buttonName } = e.detail; 
+      console.log(`${buttonName} was pressed!`);
+      if (buttonName === "button_3") {
+        this.toggleDirection();
+      } else if (buttonName === "button_0") {
+        this.toggleEnable();
+      } else if (buttonName === "button_1") {
+        this.increaseSpeed();
+      } else if (buttonName === "button_2") {
+        this.decraseSpeed();
+      }
+    });
   };
 
   defaultKeymap = {
@@ -76,6 +92,12 @@ class AltitudeControl extends Component {
     this.props.socket.emit("altitude", {dir});
   };
 
+  toggleDirection = () => {
+    const dir = 1 - this.state.altitude.dir;
+    this.setAltitudeState("dir", dir)
+    this.props.socket.emit("altitude", {dir})
+  }
+
   toggleEnable = () => {
     console.log("toggleEnable");
     const enable = !this.state.altitude.enable;
@@ -90,12 +112,15 @@ class AltitudeControl extends Component {
   };
 
   increaseSpeed = () => {
-    const speed = this.state.altitude.speed + 100;
+    const speed = this.state.altitude.speed + 25;
     this.setSpeed(speed);
   };
 
   decraseSpeed = () => {
-    const speed = this.state.altitude.speed - 100;
+    let speed = this.state.altitude.speed - 25;
+    if (speed < 1) {
+      speed = 1;
+    }
     this.setSpeed(speed);
   };
 }

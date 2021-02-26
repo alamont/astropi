@@ -22,7 +22,7 @@ EN_PIN = 4
 
 pigpio.pi().wave_clear()
 
-waves = Waves(0.01)
+waves = Waves(0.1)
 
 motor0 = Motor(step_pin=3, 
               dir_pin=4, 

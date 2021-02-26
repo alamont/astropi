@@ -1,4 +1,7 @@
+/* eslint no-undef: 0 */
+
 import React, { Component } from "react";
+import 'joypad.js'; 
 
 class AzimuthControl extends Component {
   constructor(props) {
@@ -28,6 +31,19 @@ class AzimuthControl extends Component {
 
   componentDidMount = () => {
     document.addEventListener("keydown", this.handleKeyDown.bind(this), false);
+    joypad.on('button_press', e => {
+      const { buttonName } = e.detail; 
+      console.log(`${buttonName} was pressed!`);
+      if (buttonName === "button_12") {
+        this.toggleDirection();
+      } else if (buttonName === "button_13") {
+        this.toggleEnable();
+      } else if (buttonName === "button_15") {
+        this.increaseSpeed();
+      } else if (buttonName === "button_14") {
+        this.decraseSpeed();
+      }
+    });
   };
 
   defaultKeymap = {
@@ -69,6 +85,12 @@ class AzimuthControl extends Component {
     this.props.socket.emit("azimuth", {dir});
   };
 
+  toggleDirection = () => {
+    const dir = 1 - this.state.azimuth.dir;
+    this.setAzimuthState("dir", dir)
+    this.props.socket.emit("altitude", {dir})
+  }
+
   toggleEnable = () => {
     console.log("toggleEnable");
     const enable = !this.state.azimuth.enable;
@@ -83,12 +105,15 @@ class AzimuthControl extends Component {
   };
 
   increaseSpeed = () => {
-    const speed = this.state.azimuth.speed + 100;
+    const speed = this.state.azimuth.speed + 25;
     this.setSpeed(speed);
   };
 
   decraseSpeed = () => {
-    const speed = this.state.azimuth.speed - 100;
+    let speed = this.state.azimuth.speed - 25;
+    if (speed < 1) {
+      speed = 1;
+    }
     this.setSpeed(speed);
   };
 }
